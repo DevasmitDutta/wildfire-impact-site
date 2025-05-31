@@ -9,10 +9,518 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- Styles, body, header, sections, footer and script content were inserted here -->
-<!-- OMITTED HERE FOR DISPLAY PURPOSE BUT IN FINAL SCRIPT THIS WOULD BE FULL TEXT -->
+<!-- Visualization & Content Choices:
+- Hero Stats (Inform): Large HTML text.
+- Overview (Compare/Trend): Grouped bar chart (Chart.js) for 2023 vs. 2024 fires/acres. NEW: Bar chart for Acres Burned Trend (2020-2024).
+- Structural Impacts (Inform/Compare): Donut chart (Chart.js) for 2023 structure types. NEW: 'Spotlight on Devastating Fires' (HTML cards) for detailed textual impact of major events like Palisades, Lahaina.
+- Economic Costs (Show Change/Inform): Horizontal bar chart (Chart.js) for suppression cost trends. Large stat cards for overall burden.
+- Trends (Organize): Grid of cards (HTML/Unicode) for digestible factors.
+-->
+<style>
+body {
+font-family: 'Inter', sans-serif;
+background-color: #F8F7F2; /* Warm Neutral Main Background */
+color: #333333; /* Dark Gray for Primary Text */
+}
+.chart-container {
+position: relative;
+width: 100%;
+max-width: 700px; /* Max width for chart containers */
+margin-left: auto;
+margin-right: auto;
+height: 350px; /* Default height */
+max-height: 450px; /* Max height */
+}
+@media (max-width: 768px) {
+.chart-container {
+height: 300px; /* Smaller height on mobile */
+}
+}
+.nav-link {
+transition: color 0.3s, border-color 0.3s;
+}
+.active-btn, .nav-link.active {
+background-color: #D95F43 !important; /* Accent Orange */
+color: #FFFFFF !important;
+font-weight: bold;
+}
+.nav-link:hover {
+color: #D95F43; /* Accent Orange for hover */
+}
+h1, h2, h3, h4 {
+color: #4A4A4A; /* Slightly softer dark gray for headings */
+}
+.card-accent {
+border-left: 4px solid #D95F43; /* Accent Orange */
+}
+.stat-highlight {
+color: #D95F43; /* Accent Orange */
+}
+/* Custom scrollbar for better aesthetics - optional */
+::-webkit-scrollbar {
+width: 8px;
+}
+::-webkit-scrollbar-track {
+background: #F0EFEB; /* Lighter shade of background */
+}
+::-webkit-scrollbar-thumb {
+background: #C9ADA7; /* Muted accent color */
+border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+background: #BFA09A;
+}
+</style>
 </head>
 <body class="antialiased">
-<!-- Full body content goes here (your submitted code) -->
+
+<header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-md">
+<nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex-shrink-0">
+<h1 class="text-xl font-bold text-[#D95F43]">Wildfire Impact Report</h1>
+</div>
+<div class="hidden md:block">
+<div class="ml-10 flex items-baseline space-x-1">
+<a href="#overview" data-nav="overview" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Overview</a>
+<a href="#impacts" data-nav="impacts" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Impacts</a>
+<a href="#costs" data-nav="costs" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Economic Toll</a>
+<a href="#trends" data-nav="trends" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Trends & Outlook</a>
+</div>
+</div>
+<div class="md:hidden">
+<select id="mobile-nav" class="bg-white border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-[#D95F43] focus:border-[#D95F43]">
+<option value="#overview">Overview</option>
+<option value="#impacts">Impacts</option>
+<option value="#costs">Costs</option>
+<option value="#trends">Trends</option>
+</select>
+</div>
+</div>
+</nav>
+</header>
+
+<main class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+
+<section class="text-center mb-12 md:mb-20">
+<h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">The Escalating Threat of U.S. Wildfires</h1>
+<p class="text-lg md:text-xl text-gray-600 max-w-4xl mx-auto">An interactive analysis of the increasing frequency, scale, and cost of wildfires on American communities and the economy. Data as of May 31, 2025.</p>
+</section>
+
+<section id="overview" class="mb-16 md:mb-24 py-12 scroll-mt-20">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gray-800">Annual Wildfire Snapshot</h2>
+<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">This section provides a high-level comparison of wildfire activity across recent years. Use the buttons to toggle the first chart between total fires and acres burned. The second chart illustrates the trend in total acres burned annually from 2020 to 2024.</p>
+</div>
+<div class="space-y-12">
+<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+<h3 class="text-xl font-semibold text-center mb-6">Fires vs. Acres Burned (2023-2024)</h3>
+<div class="flex justify-center space-x-2 mb-6">
+<button id="show-fires-btn" class="px-4 py-2 text-sm font-semibold rounded-full transition active-btn">🔥 Fires</button>
+<button id="show-acres-btn" class="px-4 py-2 text-sm font-semibold rounded-full transition bg-gray-200 text-gray-700 hover:bg-gray-300">🌲 Acres Burned</button>
+</div>
+<div class="chart-container">
+<canvas id="overviewChart"></canvas>
+</div>
+<p id="chart-caption" class="text-center text-sm text-gray-500 mt-4">Hover over bars for details. 2023 saw fewer acres burned than any year since 1998, while 2024 saw a significant resurgence.</p>
+</div>
+
+<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+<h3 class="text-xl font-semibold text-center mb-6">Trend: Total Acres Burned Annually (U.S. 2020-2024)</h3>
+<div class="chart-container">
+<canvas id="acresTrendChart"></canvas>
+</div>
+<p class="text-center text-sm text-gray-500 mt-4">Illustrates the fluctuation in total acres burned across the U.S. over the last five reported years. Hover for specific values.</p>
+</div>
+</div>
+</section>
+
+<section id="impacts" class="mb-16 md:mb-24 py-12 scroll-mt-20">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gray-800">Impact on the Built Environment</h2>
+<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">Wildfires directly threaten homes, businesses, and essential infrastructure. This section visualizes the types of structures lost in 2023 and provides a spotlight on some of the most devastating recent fire events, emphasizing their human and structural toll.</p>
+</div>
+<div class="grid md:grid-cols-5 gap-8 items-start">
+<div class="md:col-span-2 bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+<h3 class="text-xl font-semibold text-center mb-4">Structures Destroyed by Type (2023)</h3>
+<div class="chart-container h-72 md:h-80">
+<canvas id="structuresChart"></canvas>
+</div>
+<p class="text-center text-sm text-gray-500 mt-4">In 2023, residences constituted 70% of the 4,318 structures destroyed by wildfires nationally.</p>
+</div>
+<div class="md:col-span-3 space-y-6">
+<h3 class="text-2xl font-bold text-gray-800 mb-4 text-center md:text-left">Spotlight on Devastating Fires</h3>
+<div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
+<h4 class="font-bold text-lg text-[#D95F43] mb-1">Los Angeles Wildfires, CA (Jan 2025)</h4>
+<p class="text-sm text-gray-500 mb-2">Including the Palisades Fire (approx. 23,700 acres) & Eaton Fire (approx. 14,000 acres)</p>
+<p class="text-gray-700">A catastrophic early-season series of fires that resulted in the destruction of over <strong class="stat-highlight">11,500 homes</strong>. This event significantly deepened the region's housing crisis and stands as one of the costliest wildfire disasters in U.S. history.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
+<h4 class="font-bold text-lg text-[#D95F43] mb-1">Lahaina Fire, Hawaii (Aug 2023)</h4>
+<p class="text-gray-700">The deadliest U.S. wildfire in over a century, tragically causing <strong class="stat-highlight">100 fatalities</strong>. It led to widespread destruction of the historic town of Lahaina, with thousands of structures lost and immense community displacement.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
+<h4 class="font-bold text-lg text-[#D95F43] mb-1">South Fork Fire, New Mexico (2024)</h4>
+<p class="text-gray-700">Designated as a billion-dollar disaster, this fire destroyed numerous homes, businesses, and critical infrastructure, heavily impacting local communities and the regional economy.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
+<h4 class="font-bold text-lg text-[#D95F43] mb-1">Marshall Fire, Colorado (Dec 2021)</h4>
+<p class="text-gray-700">An unusual winter grassfire that, fueled by extreme winds, rapidly swept through suburban areas, destroying nearly <strong class="stat-highlight">1,100 homes</strong> and causing over $2 billion in damages, highlighting WUI vulnerability even outside traditional fire seasons.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="costs" class="mb-16 md:mb-24 py-12 scroll-mt-20">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gray-800">The Staggering Economic Toll</h2>
+<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">The financial consequences of wildfires are immense, impacting GDP, federal budgets, and insurance markets. This section details the overall economic burden and the specific, rising costs of fire suppression efforts.</p>
+</div>
+<div class="grid md:grid-cols-2 gap-8">
+<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl flex flex-col justify-center text-center">
+<h3 class="text-xl font-semibold mb-2">Total Annual Economic Burden (U.S.)</h3>
+<p class="text-4xl md:text-5xl font-bold stat-highlight">$394B - $893B</p>
+<p class="text-gray-600 mt-2">Equivalent to 2-4% of U.S. GDP. Includes property damage, health costs, income loss, and watershed pollution.</p>
+</div>
+<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl flex flex-col justify-center text-center">
+<h3 class="text-xl font-semibold mb-2">Billion-Dollar Weather & Climate Disasters</h3>
+<p class="text-4xl md:text-5xl font-bold stat-highlight">27 Events in 2024</p>
+<p class="text-gray-600 mt-2">Wildfires contribute significantly to these costly events. The U.S. has sustained 403 such disasters since 1980, costing over $2.915 trillion.</p>
+</div>
+</div>
+<div class="mt-10 bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+<h3 class="text-xl font-semibold text-center mb-6">Trend: Rising Federal Fire Suppression Costs</h3>
+<div class="chart-container h-96">
+<canvas id="suppressionCostsChart"></canvas>
+</div>
+<p class="text-center text-sm text-gray-500 mt-4">Suppression costs alone now average over $3 billion annually for federal agencies. These figures do not include state costs or property damages.</p>
+</div>
+</section>
+
+<section id="trends" class="py-12 scroll-mt-20">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gray-800">Key Trends & Future Outlook</h2>
+<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">Understanding the drivers of increasing wildfire risk is crucial. This section outlines primary trends and the expert outlook, emphasizing the need for adaptive strategies in the face of a changing fire environment.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+<h4 class="font-bold text-lg mb-2 flex items-center"><span class="text-2xl mr-3">🌡️</span> Climate & Drought</h4>
+<p class="text-gray-700">Warming temperatures and altered precipitation patterns are leading to drier fuels and more frequent, intense fire weather.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+<h4 class="font-bold text-lg mb-2 flex items-center"><span class="text-2xl mr-3">📅</span> Longer Fire Seasons</h4>
+<p class="text-gray-700">The period of high fire risk is extending, with some regions experiencing year-round threats, reducing recovery windows.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+<h4 class="font-bold text-lg mb-2 flex items-center"><span class="text-2xl mr-3">🏠</span> Wildland-Urban Interface (WUI)</h4>
+<p class="text-gray-700">Increased development in fire-prone WUI areas exposes more structures and lives to risk, particularly from wind-driven embers.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+<h4 class="font-bold text-lg mb-2 flex items-center"><span class="text-2xl mr-3">🌲</span> Fuel Accumulation</h4>
+<p class="text-gray-700">Historical fire suppression practices have led to dense vegetation, creating larger fuel loads for more intense fires.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+<h4 class="font-bold text-lg mb-2 flex items-center"><span class="text-2xl mr-3">🔥</span> Increased Fire Intensity</h4>
+<p class="text-gray-700">Fires are often burning hotter and spreading faster, making them more difficult and dangerous to control.</p>
+</div>
+<div class="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
+<h4 class="font-bold text-lg mb-2 flex items-center"><span class="text-2xl mr-3">🌙</span> Overnight Burning</h4>
+<p class="text-gray-700">Reduced nighttime humidity recovery due to drought allows fires to burn actively through the night, limiting containment opportunities.</p>
+</div>
+</div>
+
+<div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl card-accent">
+<h3 class="text-xl font-bold mb-3">2025 Outlook Summary</h3>
+<p class="text-gray-700">Experts anticipate another challenging fire season across North America. Key concerns include persistent drought in regions like the Southwest and substantial fuel loads. As of April 2025, with 45% of the U.S. in drought, vigilance is high. The focus remains on proactive mitigation, fostering fire-adapted communities, enhancing building resilience, and strategic resource deployment.</p>
+</div>
+</section>
+
+</main>
+
+<footer class="bg-gray-800 text-white mt-16">
+<div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-sm">
+<p>Data compiled from National Interagency Fire Center (NIFC), NOAA National Centers for Environmental Information (NCEI), U.S. Joint Economic Committee reports, and other public domain sources. All data presented is for illustrative and informational purposes based on synthesis of these reports as of May 31, 2025.</p>
+<p>&copy; 2025 Wildfire Impact Interactive Report. Not for official use.</p>
+</div>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+const wildfireData = {
+overview: {
+labels: ['2023', '2024'],
+fires: [56580, 64897], // Approx figures
+acres: [2700000, 8900000] // Approx figures
+},
+acresTrend: {
+labels: ['2020', '2021', '2022', '2023', '2024'],
+acres: [10100000, 7100000, 7600000, 2700000, 8900000] // Approx figures
+},
+structures: { // Data for 2023
+labels: ['Residences', 'Minor Structures', 'Other (Commercial etc.)'],
+data: [3036, 1228, 54],
+},
+suppressionCosts: { // Federal costs
+labels: ['2019', '2020', '2021', '2022', '2023'],
+costs: [2.0, 3.2, 4.2, 3.0, 3.16] // Billions USD
+}
+};
+
+const chartColors = {
+orange: 'rgba(217, 95, 67, 0.8)', // Accent Orange
+orange_border: 'rgba(217, 95, 67, 1)',
+blue: 'rgba(92, 128, 161, 0.8)', // Muted Blue
+blue_border: 'rgba(92, 128, 161, 1)',
+grey: 'rgba(156, 163, 175, 0.7)', // Neutral Grey
+grey_border: 'rgba(156, 163, 175, 1)',
+darkBlue: 'rgba(60, 90, 130, 0.8)', // Darker Blue for trends
+darkBlue_border: 'rgba(60, 90, 130, 1)',
+};
+let overviewChartInstance;
+
+const commonChartOptions = {
+responsive: true,
+maintainAspectRatio: false,
+plugins: {
+legend: {
+display: false
+},
+tooltip: {
+backgroundColor: 'rgba(0,0,0,0.7)',
+titleFont: { size: 14, weight: 'bold' },
+bodyFont: { size: 12 },
+padding: 10,
+callbacks: {
+label: function(context) {
+let label = context.dataset.label || '';
+if (label) {
+label += ': ';
+}
+if (context.parsed.y !== null) {
+label += new Intl.NumberFormat('en-US').format(context.parsed.y);
+}
+if (context.dataset.tooltipSuffix) {
+label += context.dataset.tooltipSuffix;
+}
+return label;
+}
+}
+}
+},
+scales: {
+y: {
+beginAtZero: true,
+grid: { color: 'rgba(200,200,200,0.2)' },
+ticks: {
+color: '#555',
+callback: function(value) {
+if (value >= 1000000) return (value / 1000000) + 'M';
+if (value >= 1000) return (value / 1000) + 'K';
+return value;
+}
+}
+},
+x: {
+grid: { display: false },
+ticks: { color: '#555', font: { weight: '600' } }
+}
+}
+};
+
+const renderOverviewChart = (dataType = 'fires') => {
+const ctx = document.getElementById('overviewChart').getContext('2d');
+if (overviewChartInstance) {
+overviewChartInstance.destroy();
+}
+
+const data = dataType === 'fires' ? wildfireData.overview.fires : wildfireData.overview.acres;
+const label = dataType === 'fires' ? 'Number of Fires' : 'Acres Burned';
+const color = dataType === 'fires' ? chartColors.orange : chartColors.blue;
+const borderColor = dataType === 'fires' ? chartColors.orange_border : chartColors.blue_border;
+
+overviewChartInstance = new Chart(ctx, {
+type: 'bar',
+data: {
+labels: wildfireData.overview.labels,
+datasets: [{
+label: label,
+data: data,
+backgroundColor: color,
+borderColor: borderColor,
+borderWidth: 1.5,
+borderRadius: 4,
+barPercentage: 0.7,
+categoryPercentage: 0.6
+}]
+},
+options: { ...commonChartOptions }
+});
+};
+
+const renderAcresTrendChart = () => {
+const ctx = document.getElementById('acresTrendChart').getContext('2d');
+new Chart(ctx, {
+type: 'bar',
+data: {
+labels: wildfireData.acresTrend.labels,
+datasets: [{
+label: 'Total Acres Burned (US)',
+data: wildfireData.acresTrend.acres,
+backgroundColor: chartColors.darkBlue,
+borderColor: chartColors.darkBlue_border,
+borderWidth: 1.5,
+borderRadius: 4
+}]
+},
+options: { ...commonChartOptions }
+});
+};
+
+const renderStructuresChart = () => {
+const ctx = document.getElementById('structuresChart').getContext('2d');
+new Chart(ctx, {
+type: 'doughnut',
+data: {
+labels: wildfireData.structures.labels,
+datasets: [{
+label: 'Structures Destroyed (2023)',
+data: wildfireData.structures.data,
+backgroundColor: [
+chartColors.orange,
+chartColors.blue,
+chartColors.grey
+],
+borderColor: [
+'#F8F7F2', // Match body background for cleaner look
+'#F8F7F2',
+'#F8F7F2'
+],
+borderWidth: 3,
+hoverOffset: 8
+}]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+cutout: '60%',
+plugins: {
+legend: {
+position: 'bottom',
+labels: {
+boxWidth: 15,
+padding: 15,
+color: '#333',
+font: { size: 12 }
+}
+},
+tooltip: { ...commonChartOptions.plugins.tooltip }
+}
+}
+});
+};
+
+const renderSuppressionCostsChart = () => {
+const ctx = document.getElementById('suppressionCostsChart').getContext('2d');
+new Chart(ctx, {
+type: 'bar',
+data: {
+labels: wildfireData.suppressionCosts.labels,
+datasets: [{
+label: 'Suppression Cost',
+data: wildfireData.suppressionCosts.costs,
+backgroundColor: chartColors.orange,
+borderColor: chartColors.orange_border,
+borderWidth: 1.5,
+borderRadius: 4,
+tooltipSuffix: ' Billion USD'
+}]
+},
+options: {
+...commonChartOptions,
+indexAxis: 'y',
+scales: {
+...commonChartOptions.scales,
+x: {
+...commonChartOptions.scales.x,
+title: {
+display: true,
+text: 'Cost in Billions (USD)',
+color: '#555',
+font: { size: 12 }
+}
+},
+y: {
+...commonChartOptions.scales.y,
+grid: { display: false },
+ticks: { ...commonChartOptions.scales.y.ticks, font: { weight: '600' } }
+}
+}
+}
+});
+};
+const showFiresBtn = document.getElementById('show-fires-btn');
+const showAcresBtn = document.getElementById('show-acres-btn');
+const chartCaption = document.getElementById('chart-caption');
+
+showFiresBtn.addEventListener('click', () => {
+renderOverviewChart('fires');
+showFiresBtn.classList.add('active-btn');
+showFiresBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+showAcresBtn.classList.remove('active-btn');
+showAcresBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+chartCaption.textContent = "Hover over bars for details. Comparing number of fires in 2023 vs 2024.";
+});
+
+showAcresBtn.addEventListener('click', () => {
+renderOverviewChart('acres');
+showAcresBtn.classList.add('active-btn');
+showAcresBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+showFiresBtn.classList.remove('active-btn');
+showFiresBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+chartCaption.textContent = "Hover over bars for details. Acres burned in 2024 were significantly higher than in 2023.";
+});
+
+const mobileNavEl = document.getElementById('mobile-nav');
+mobileNavEl.addEventListener('change', (e) => {
+const targetId = e.target.value.substring(1);
+const targetElement = document.getElementById(targetId);
+if (targetElement) {
+targetElement.scrollIntoView({ behavior: 'smooth' });
+}
+});
+
+const desktopNavLinks = document.querySelectorAll('header nav a.nav-link');
+const sections = document.querySelectorAll('main section');
+
+const setActiveLink = () => {
+let currentSectionId = '';
+sections.forEach(section => {
+const sectionTop = section.offsetTop;
+if (pageYOffset >= sectionTop - 80) { // 80px offset for sticky header
+currentSectionId = section.getAttribute('id');
+}
+});
+
+desktopNavLinks.forEach(link => {
+link.classList.remove('active');
+if (link.getAttribute('data-nav') === currentSectionId) {
+link.classList.add('active');
+}
+});
+if (mobileNavEl.value !== `#${currentSectionId}` && currentSectionId) {
+mobileNavEl.value = `#${currentSectionId}`;
+}
+};
+window.addEventListener('scroll', setActiveLink);
+setActiveLink(); // Set active link on page load
+
+
+renderOverviewChart('fires');
+renderAcresTrendChart();
+renderStructuresChart();
+renderSuppressionCostsChart();
+});
+</script>
 </body>
 </html>
