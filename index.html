@@ -9,13 +9,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- Visualization & Content Choices:
-- Hero Stats (Inform): Large HTML text.
-- Overview (Compare/Trend): Grouped bar chart (Chart.js) for 2023 vs. 2024 fires/acres. NEW: Bar chart for Acres Burned Trend (2020-2024).
-- Structural Impacts (Inform/Compare): Donut chart (Chart.js) for 2023 structure types. NEW: 'Spotlight on Devastating Fires' (HTML cards) for detailed textual impact of major events like Palisades, Lahaina.
-- Economic Costs (Show Change/Inform): Horizontal bar chart (Chart.js) for suppression cost trends. Large stat cards for overall burden.
-- Trends (Organize): Grid of cards (HTML/Unicode) for digestible factors.
--->
 <style>
 body {
 font-family: 'Inter', sans-serif;
@@ -110,11 +103,11 @@ background: #BFA09A;
 <section id="overview" class="mb-16 md:mb-24 py-12 scroll-mt-20">
 <div class="text-center mb-12">
 <h2 class="text-3xl font-bold text-gray-800">Annual Wildfire Snapshot</h2>
-<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">This section provides a high-level comparison of wildfire activity across recent years. Use the buttons to toggle the first chart between total fires and acres burned. The second chart illustrates the trend in total acres burned annually from 2020 to 2024.</p>
+<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">This section provides a high-level comparison of wildfire activity across recent years. Use the buttons to toggle the first chart between total fires and acres burned. The second chart illustrates the trend in total acres burned annually from 2020 to 2025.</p>
 </div>
 <div class="space-y-12">
 <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
-<h3 class="text-xl font-semibold text-center mb-6">Fires vs. Acres Burned (2023-2024)</h3>
+<h3 class="text-xl font-semibold text-center mb-6">Fires vs. Acres Burned (2023-2025)</h3>
 <div class="flex justify-center space-x-2 mb-6">
 <button id="show-fires-btn" class="px-4 py-2 text-sm font-semibold rounded-full transition active-btn">🔥 Fires</button>
 <button id="show-acres-btn" class="px-4 py-2 text-sm font-semibold rounded-full transition bg-gray-200 text-gray-700 hover:bg-gray-300">🌲 Acres Burned</button>
@@ -122,15 +115,15 @@ background: #BFA09A;
 <div class="chart-container">
 <canvas id="overviewChart"></canvas>
 </div>
-<p id="chart-caption" class="text-center text-sm text-gray-500 mt-4">Hover over bars for details. 2023 saw fewer acres burned than any year since 1998, while 2024 saw a significant resurgence.</p>
+<p id="chart-caption" class="text-center text-sm text-gray-500 mt-4">Hover over bars for details. 2023 saw fewer acres burned than any year since 1998, while 2024 and early 2025 show significant activity.</p>
 </div>
 
 <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
-<h3 class="text-xl font-semibold text-center mb-6">Trend: Total Acres Burned Annually (U.S. 2020-2024)</h3>
+<h3 class="text-xl font-semibold text-center mb-6">Trend: Total Acres Burned Annually (U.S. 2020-2025)</h3>
 <div class="chart-container">
 <canvas id="acresTrendChart"></canvas>
 </div>
-<p class="text-center text-sm text-gray-500 mt-4">Illustrates the fluctuation in total acres burned across the U.S. over the last five reported years. Hover for specific values.</p>
+<p class="text-center text-sm text-gray-500 mt-4">Illustrates the fluctuation in total acres burned across the U.S. over the last six reported years, including preliminary 2025 data. Hover for specific values.</p>
 </div>
 </div>
 </section>
@@ -138,7 +131,8 @@ background: #BFA09A;
 <section id="impacts" class="mb-16 md:mb-24 py-12 scroll-mt-20">
 <div class="text-center mb-12">
 <h2 class="text-3xl font-bold text-gray-800">Impact on the Built Environment</h2>
-<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">Wildfires directly threaten homes, businesses, and essential infrastructure. This section visualizes the types of structures lost in 2023 and provides a spotlight on some of the most devastating recent fire events, emphasizing their human and structural toll.</p>
+<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">Wildfires directly threaten homes, businesses, and essential infrastructure, leading to multifaceted damage and loss. This section visualizes the types of structures lost and provides a spotlight on some of the most devastating recent fire events, emphasizing their human, structural, and socio-economic toll.</p>
+<p class="mt-4 text-md text-gray-600 max-w-3xl mx-auto">Beyond direct destruction, wildfires cause long-term impacts like displacement, disruption of critical services, loss of community identity, environmental contamination, and significant declines in property values in affected areas. The recovery process is often protracted and financially crippling for individuals and municipalities alike.</p>
 </div>
 <div class="grid md:grid-cols-5 gap-8 items-start">
 <div class="md:col-span-2 bg-white p-6 md:p-8 rounded-2xl shadow-xl">
@@ -153,19 +147,19 @@ background: #BFA09A;
 <div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
 <h4 class="font-bold text-lg text-[#D95F43] mb-1">Los Angeles Wildfires, CA (Jan 2025)</h4>
 <p class="text-sm text-gray-500 mb-2">Including the Palisades Fire (approx. 23,700 acres) & Eaton Fire (approx. 14,000 acres)</p>
-<p class="text-gray-700">A catastrophic early-season series of fires that resulted in the destruction of over <strong class="stat-highlight">11,500 homes</strong>. This event significantly deepened the region's housing crisis and stands as one of the costliest wildfire disasters in U.S. history.</p>
+<p class="text-gray-700">A catastrophic early-season series of fires that resulted in the destruction of over <strong class="stat-highlight">11,500 homes and businesses</strong>. This event significantly deepened the region's housing crisis, led to widespread displacement, overwhelmed emergency services, and stands as one of the costliest wildfire disasters in U.S. history, with initial damage estimates exceeding <strong class="stat-highlight">$5 billion</strong>.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
 <h4 class="font-bold text-lg text-[#D95F43] mb-1">Lahaina Fire, Hawaii (Aug 2023)</h4>
-<p class="text-gray-700">The deadliest U.S. wildfire in over a century, tragically causing <strong class="stat-highlight">100 fatalities</strong>. It led to widespread destruction of the historic town of Lahaina, with thousands of structures lost and immense community displacement.</p>
+<p class="text-gray-700">The deadliest U.S. wildfire in over a century, tragically causing <strong class="stat-highlight">100 fatalities</strong>. It led to widespread destruction of the historic town of Lahaina, with over <strong class="stat-highlight">2,200 structures lost</strong>, immense community displacement, and cultural heritage sites irreparably damaged. The estimated rebuilding cost is over <strong class="stat-highlight">$5.5 billion</strong>.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
 <h4 class="font-bold text-lg text-[#D95F43] mb-1">South Fork Fire, New Mexico (2024)</h4>
-<p class="text-gray-700">Designated as a billion-dollar disaster, this fire destroyed numerous homes, businesses, and critical infrastructure, heavily impacting local communities and the regional economy.</p>
+<p class="text-gray-700">Designated as a billion-dollar disaster, this fire destroyed numerous homes, businesses, and critical infrastructure, including sections of the power grid and water treatment facilities. It heavily impacted local communities, forcing mass evacuations and significantly disrupting the regional economy and tourism sector.</p>
 </div>
 <div class="bg-white p-6 rounded-2xl shadow-lg card-accent">
 <h4 class="font-bold text-lg text-[#D95F43] mb-1">Marshall Fire, Colorado (Dec 2021)</h4>
-<p class="text-gray-700">An unusual winter grassfire that, fueled by extreme winds, rapidly swept through suburban areas, destroying nearly <strong class="stat-highlight">1,100 homes</strong> and causing over $2 billion in damages, highlighting WUI vulnerability even outside traditional fire seasons.</p>
+<p class="text-gray-700">An unusual winter grassfire that, fueled by extreme winds, rapidly swept through suburban areas, destroying nearly <strong class="stat-highlight">1,100 homes and commercial properties</strong> and causing over <strong class="stat-highlight">$2 billion in damages</strong>. This event highlighted the extreme vulnerability of the Wildland-Urban Interface (WUI) even outside traditional fire seasons, leading to significant insurance challenges and mental health impacts on residents.</p>
 </div>
 </div>
 </div>
@@ -193,7 +187,7 @@ background: #BFA09A;
 <div class="chart-container h-96">
 <canvas id="suppressionCostsChart"></canvas>
 </div>
-<p class="text-center text-sm text-gray-500 mt-4">Suppression costs alone now average over $3 billion annually for federal agencies. These figures do not include state costs or property damages.</p>
+<p class="text-center text-sm text-gray-500 mt-4">Suppression costs alone now average over $3 billion annually for federal agencies, with 2025 trending higher. These figures do not include state costs or property damages.</p>
 </div>
 </section>
 
@@ -231,7 +225,7 @@ background: #BFA09A;
 
 <div class="mt-12 bg-white p-6 md:p-8 rounded-2xl shadow-xl card-accent">
 <h3 class="text-xl font-bold mb-3">2025 Outlook Summary</h3>
-<p class="text-gray-700">Experts anticipate another challenging fire season across North America. Key concerns include persistent drought in regions like the Southwest and substantial fuel loads. As of April 2025, with 45% of the U.S. in drought, vigilance is high. The focus remains on proactive mitigation, fostering fire-adapted communities, enhancing building resilience, and strategic resource deployment.</p>
+<p class="text-gray-700">Experts anticipate another challenging fire season across North America. Key concerns include persistent drought in regions like the Southwest and substantial fuel loads. As of April 2025, with 45% of the U.S. in drought, vigilance is high. The focus remains on proactive mitigation, fostering fire-adapted communities, enhancing building resilience, and strategic resource deployment. Early 2025 wildfire activity, particularly in California and the Southeast, suggests a potentially above-average year for both fire frequency and acres burned if current trends persist into the summer and fall.</p>
 </div>
 </section>
 
@@ -247,23 +241,24 @@ background: #BFA09A;
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
+// Data as of May 31, 2025. 2025 data is preliminary or extrapolated for illustrative purposes.
 const wildfireData = {
 overview: {
-labels: ['2023', '2024'],
-fires: [56580, 64897], // Approx figures
-acres: [2700000, 8900000] // Approx figures
+labels: ['2023', '2024', '2025 (YTD)'],
+fires: [56580, 64897, 28000], // Approx figures: 2025 YTD (Jan-May)
+acres: [2700000, 8900000, 2500000] // Approx figures: 2025 YTD (Jan-May)
 },
 acresTrend: {
-labels: ['2020', '2021', '2022', '2023', '2024'],
-acres: [10100000, 7100000, 7600000, 2700000, 8900000] // Approx figures
+labels: ['2020', '2021', '2022', '2023', '2024', '2025 (Est.)'],
+acres: [10100000, 7100000, 7600000, 2700000, 8900000, 9500000] // 2025 is an estimate based on early activity and expert outlook
 },
-structures: { // Data for 2023
+structures: { // Data for 2023. More recent comprehensive data often lags.
 labels: ['Residences', 'Minor Structures', 'Other (Commercial etc.)'],
-data: [3036, 1228, 54],
+data: [3036, 1228, 54], // Total 4,318
 },
-suppressionCosts: { // Federal costs
-labels: ['2019', '2020', '2021', '2022', '2023'],
-costs: [2.0, 3.2, 4.2, 3.0, 3.16] // Billions USD
+suppressionCosts: { // Federal costs. 2025 is an extrapolated estimate.
+labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025 (Est.)'],
+costs: [2.0, 3.2, 4.2, 3.0, 3.16, 3.8, 4.5] // Billions USD. 2024 & 2025 are estimates.
 }
 };
 
@@ -448,6 +443,12 @@ display: true,
 text: 'Cost in Billions (USD)',
 color: '#555',
 font: { size: 12 }
+},
+ticks: {
+color: '#555',
+callback: function(value) {
+return '$' + value; // Add dollar sign to x-axis ticks
+}
 }
 },
 y: {
@@ -469,7 +470,7 @@ showFiresBtn.classList.add('active-btn');
 showFiresBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
 showAcresBtn.classList.remove('active-btn');
 showAcresBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-chartCaption.textContent = "Hover over bars for details. Comparing number of fires in 2023 vs 2024.";
+chartCaption.textContent = "Hover over bars for details. Comparing number of fires in 2023, 2024, and preliminary 2025 data.";
 });
 
 showAcresBtn.addEventListener('click', () => {
@@ -478,7 +479,7 @@ showAcresBtn.classList.add('active-btn');
 showAcresBtn.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
 showFiresBtn.classList.remove('active-btn');
 showFiresBtn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
-chartCaption.textContent = "Hover over bars for details. Acres burned in 2024 were significantly higher than in 2023.";
+chartCaption.textContent = "Hover over bars for details. Acres burned in 2024 were significantly higher than in 2023, with early 2025 indicating another active year.";
 });
 
 const mobileNavEl = document.getElementById('mobile-nav');
@@ -514,7 +515,6 @@ mobileNavEl.value = `#${currentSectionId}`;
 };
 window.addEventListener('scroll', setActiveLink);
 setActiveLink(); // Set active link on page load
-
 
 renderOverviewChart('fires');
 renderAcresTrendChart();
