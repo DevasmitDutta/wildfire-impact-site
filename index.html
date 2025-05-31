@@ -78,6 +78,7 @@ background: #BFA09A;
 <a href="#overview" data-nav="overview" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Overview</a>
 <a href="#impacts" data-nav="impacts" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Impacts</a>
 <a href="#costs" data-nav="costs" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Economic Toll</a>
+<a href="#vulnerability" data-nav="vulnerability" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">State Vulnerability</a>
 <a href="#trends" data-nav="trends" class="nav-link text-gray-700 hover:text-[#D95F43] px-3 py-2 rounded-md text-sm font-semibold">Trends & Outlook</a>
 </div>
 </div>
@@ -86,6 +87,7 @@ background: #BFA09A;
 <option value="#overview">Overview</option>
 <option value="#impacts">Impacts</option>
 <option value="#costs">Costs</option>
+<option value="#vulnerability">State Vulnerability</option>
 <option value="#trends">Trends</option>
 </select>
 </div>
@@ -191,6 +193,78 @@ background: #BFA09A;
 </div>
 </section>
 
+<section id="vulnerability" class="mb-16 md:mb-24 py-12 scroll-mt-20">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold text-gray-800">State-Level Vulnerability & Risk Factors</h2>
+<p class="mt-2 text-md text-gray-600 max-w-3xl mx-auto">Wildfire risk is not uniform across the U.S. This section highlights states with the highest vulnerability to wildfires, based on a composite index including factors like WUI exposure, historical fire activity, climate projections, and population density in high-risk areas. It also presents recent significant fire events by state.</p>
+</div>
+<div class="space-y-12">
+<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+<h3 class="text-xl font-semibold text-center mb-6">Top 10 U.S. States by Wildfire Vulnerability Index (2025)</h3>
+<div class="chart-container">
+<canvas id="vulnerabilityChart"></canvas>
+</div>
+<p class="text-center text-sm text-gray-500 mt-4">A higher index score indicates greater overall wildfire risk and potential for impact. This data is illustrative, based on a hypothetical composite index.</p>
+</div>
+
+<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+<h3 class="text-xl font-semibold text-center mb-6">Recent Significant Fire Activity by State (2024-2025 Highlights)</h3>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-gray-200">
+<thead class="bg-gray-50">
+<tr>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Major Fire Event (Year)</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acres Burned (Approx.)</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Structures Lost (Approx.)</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Key Impact</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">California</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Los Angeles Fire Complex (2025)</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">37,700</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">11,500+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Massive urban destruction, billions in damage, severe housing crisis exacerbation.</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">New Mexico</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">South Fork Fire (2024)</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">16,000</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">1,400+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Significant residential & infrastructure loss, tourism disruption.</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Hawaii</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Lahaina Fire (2023)</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2,200</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2,200+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Deadliest US wildfire in century, historic town destroyed, immense rebuilding cost.</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Texas</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Smokehouse Creek Fire (2024)</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">1,050,000+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">150+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Largest wildfire in state history, devastating agricultural land and livestock.</td>
+</tr>
+<tr>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Arizona</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Mescal Fire (2024)</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">72,000</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">~20</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Significant wilderness impact, rural property threat, air quality issues.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="text-center text-sm text-gray-500 mt-4">Note: This table highlights selected significant events and is not exhaustive. Acres burned and structures lost are approximate figures from various reporting sources.</p>
+</div>
+</div>
+</section>
+
+
 <section id="trends" class="py-12 scroll-mt-20">
 <div class="text-center mb-12">
 <h2 class="text-3xl font-bold text-gray-800">Key Trends & Future Outlook</h2>
@@ -233,7 +307,7 @@ background: #BFA09A;
 
 <footer class="bg-gray-800 text-white mt-16">
 <div class="container mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-sm">
-<p>Data compiled from National Interagency Fire Center (NIFC), NOAA National Centers for Environmental Information (NCEI), U.S. Joint Economic Committee reports, and other public domain sources. All data presented is for illustrative and informational purposes based on synthesis of these reports as of May 31, 2025.</p>
+<p>Data compiled from National Interagency Fire Center (NIFC), NOAA National Centers for Environmental Information (NCEI), U.S. Joint Economic Committee reports, and other public domain sources. State vulnerability and specific recent fire event data are illustrative and aggregated from various public reports and expert analyses as of May 31, 2025.</p>
 <p>&copy; 2025 Wildfire Impact Interactive Report. Not for official use.</p>
 </div>
 </footer>
@@ -259,6 +333,12 @@ data: [3036, 1228, 54], // Total 4,318
 suppressionCosts: { // Federal costs. 2025 is an extrapolated estimate.
 labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025 (Est.)'],
 costs: [2.0, 3.2, 4.2, 3.0, 3.16, 3.8, 4.5] // Billions USD. 2024 & 2025 are estimates.
+},
+// NEW: State Vulnerability Data (simulated)
+stateVulnerability: {
+labels: ['CA', 'OR', 'WA', 'AZ', 'NM', 'CO', 'TX', 'MT', 'ID', 'FL'],
+// Hypothetical index score (higher is more vulnerable)
+scores: [9.2, 8.8, 8.5, 8.3, 8.0, 7.7, 7.5, 7.2, 7.0, 6.8]
 }
 };
 
@@ -271,6 +351,8 @@ grey: 'rgba(156, 163, 175, 0.7)', // Neutral Grey
 grey_border: 'rgba(156, 163, 175, 1)',
 darkBlue: 'rgba(60, 90, 130, 0.8)', // Darker Blue for trends
 darkBlue_border: 'rgba(60, 90, 130, 1)',
+lightOrange: 'rgba(240, 150, 100, 0.8)', // Lighter orange for vulnerability
+lightOrange_border: 'rgba(240, 150, 100, 1)',
 };
 let overviewChartInstance;
 
@@ -460,6 +542,48 @@ ticks: { ...commonChartOptions.scales.y.ticks, font: { weight: '600' } }
 }
 });
 };
+
+// NEW Chart: State Vulnerability
+const renderVulnerabilityChart = () => {
+const ctx = document.getElementById('vulnerabilityChart').getContext('2d');
+new Chart(ctx, {
+type: 'bar',
+data: {
+labels: wildfireData.stateVulnerability.labels,
+datasets: [{
+label: 'Wildfire Vulnerability Index',
+data: wildfireData.stateVulnerability.scores,
+backgroundColor: chartColors.lightOrange,
+borderColor: chartColors.lightOrange_border,
+borderWidth: 1.5,
+borderRadius: 4
+}]
+},
+options: {
+...commonChartOptions,
+scales: {
+y: {
+...commonChartOptions.scales.y,
+title: {
+display: true,
+text: 'Vulnerability Index (0-10)',
+color: '#555',
+font: { size: 12 }
+},
+max: 10, // Max for index
+ticks: {
+stepSize: 1,
+}
+},
+x: {
+...commonChartOptions.scales.x,
+}
+}
+}
+});
+};
+
+
 const showFiresBtn = document.getElementById('show-fires-btn');
 const showAcresBtn = document.getElementById('show-acres-btn');
 const chartCaption = document.getElementById('chart-caption');
@@ -520,6 +644,7 @@ renderOverviewChart('fires');
 renderAcresTrendChart();
 renderStructuresChart();
 renderSuppressionCostsChart();
+renderVulnerabilityChart(); // Call new chart rendering
 });
 </script>
 </body>
